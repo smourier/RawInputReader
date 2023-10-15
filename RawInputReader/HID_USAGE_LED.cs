@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_LED
+    public enum HID_USAGE_LED : ushort
     {
         HID_USAGE_LED_NUM_LOCK = 0x01,
         HID_USAGE_LED_CAPS_LOCK = 0x02,

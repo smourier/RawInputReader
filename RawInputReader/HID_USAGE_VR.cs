@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_VR
+    public enum HID_USAGE_VR : ushort
     {
         HID_USAGE_VR_BELT = 0x01,
         HID_USAGE_VR_BODY_SUIT = 0x02,

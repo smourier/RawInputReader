@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_SIMULATION
+    public enum HID_USAGE_SIMULATION : ushort
     {
         HID_USAGE_SIMULATION_FLIGHT_SIMULATION_DEVICE = 0x01,
         HID_USAGE_SIMULATION_AUTOMOBILE_SIMULATION_DEVICE = 0x02,

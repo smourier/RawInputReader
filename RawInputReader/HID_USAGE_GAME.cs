@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_GAME
+    public enum HID_USAGE_GAME : ushort
     {
         HID_USAGE_GAME_3D_GAME_CONTROLLER = 0x01,
         HID_USAGE_GAME_PINBALL_DEVICE = 0x02,

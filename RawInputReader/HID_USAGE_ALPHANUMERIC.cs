@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_ALPHANUMERIC
+    public enum HID_USAGE_ALPHANUMERIC : ushort
     {
         HID_USAGE_ALPHANUMERIC_ALPHANUMERIC_DISPLAY = 0x01,
         HID_USAGE_ALPHANUMERIC_BITMAPPED_DISPLAY = 0x02,

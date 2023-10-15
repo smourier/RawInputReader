@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_SPORT
+    public enum HID_USAGE_SPORT : ushort
     {
         HID_USAGE_SPORT_BASEBALL_BAT = 0x01,
         HID_USAGE_SPORT_GOLF_CLUB = 0x02,

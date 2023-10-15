@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_DIGITIZER
+    public enum HID_USAGE_DIGITIZER : ushort
     {
         HID_USAGE_DIGITIZER_DIGITIZER = 0x01,
         HID_USAGE_DIGITIZER_PEN = 0x02,

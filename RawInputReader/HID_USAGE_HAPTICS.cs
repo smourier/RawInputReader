@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_HAPTICS
+    public enum HID_USAGE_HAPTICS : ushort
     {
         HID_USAGE_HAPTICS_SIMPLE_CONTROLLER = 0x01,
         HID_USAGE_HAPTICS_WAVEFORM_LIST = 0x10,

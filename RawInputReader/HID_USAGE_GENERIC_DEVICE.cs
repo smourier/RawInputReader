@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_GENERIC_DEVICE
+    public enum HID_USAGE_GENERIC_DEVICE : ushort
     {
         HID_USAGE_GENERIC_DEVICE_BATTERY_STRENGTH = 0x20,
         HID_USAGE_GENERIC_DEVICE_WIRELESS_CHANNEL = 0x21,

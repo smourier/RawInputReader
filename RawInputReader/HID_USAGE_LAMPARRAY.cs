@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_LAMPARRAY
+    public enum HID_USAGE_LAMPARRAY : ushort
     {
         HID_USAGE_LAMPARRAY = 0x01,
         HID_USAGE_LAMPARRAY_ATTRBIUTES_REPORT = 0x02,

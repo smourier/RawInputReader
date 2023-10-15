@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_KEYBOARD
+    public enum HID_USAGE_KEYBOARD : ushort
     {
         HID_USAGE_KEYBOARD_NOEVENT = 0x00,
         HID_USAGE_KEYBOARD_ROLLOVER = 0x01,

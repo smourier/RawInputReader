@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_CONSUMER
+    public enum HID_USAGE_CONSUMER : ushort
     {
         HID_USAGE_CONSUMERCTRL = 0x1,
         HID_USAGE_CONSUMER_CHANNEL_INCREMENT = 0x9C,

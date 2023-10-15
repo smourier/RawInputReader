@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_GENERIC
+    public enum HID_USAGE_GENERIC : ushort
     {
         HID_USAGE_GENERIC_POINTER = 0x01,
         HID_USAGE_GENERIC_MOUSE = 0x02,

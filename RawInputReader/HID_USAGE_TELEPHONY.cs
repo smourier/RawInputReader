@@ -1,6 +1,6 @@
 ﻿namespace RawInputReader
 {
-    public enum HID_USAGE_TELEPHONY
+    public enum HID_USAGE_TELEPHONY : ushort
     {
         HID_USAGE_TELEPHONY_PHONE = 0x01,
         HID_USAGE_TELEPHONY_ANSWERING_MACHINE = 0x02,

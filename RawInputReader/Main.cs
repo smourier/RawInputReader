@@ -29,8 +29,8 @@ namespace RawInputReader
         private struct RAWINPUTDEVICE
         {
             public HID_USAGE_PAGE usUsagePage;
-            public UInt16 usUsage;
-            public int dwFlags;
+            public ushort usUsage;
+            public RIDEV dwFlags;
             public IntPtr hwndTarget;
         }
     }
