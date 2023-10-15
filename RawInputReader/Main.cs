@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace RawInputReader
@@ -19,6 +20,18 @@ namespace RawInputReader
             MessageBox.Show(
                 asm.GetCustomAttribute<AssemblyTitleAttribute>()!.Title + " - " + (IntPtr.Size == 4 ? "32" : "64") + "-bit" + Environment.NewLine + asm.GetCustomAttribute<AssemblyCopyrightAttribute>()!.Copyright,
                 asm.GetCustomAttribute<AssemblyTitleAttribute>()!.Title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        [DllImport("user32", SetLastError = true)]
+        private static extern bool RegisterRawInputDevices(RAWINPUTDEVICE[] pRawInputDevice, int uiNumDevices, int cbSize);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RAWINPUTDEVICE
+        {
+            public HID_USAGE_PAGE usUsagePage;
+            public UInt16 usUsage;
+            public int dwFlags;
+            public IntPtr hwndTarget;
         }
     }
 }
