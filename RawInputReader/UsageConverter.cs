@@ -96,10 +96,10 @@ namespace RawInputReader
                 {
                     if (Conversions.TryParseEnum(type, value, out var evalue))
                         return evalue;
-
-                    if (ushort.TryParse(value.ToString(), out var us))
-                        return us;
                 }
+
+                if (ushort.TryParse(value.ToString(), out var us))
+                    return us;
             }
             return base.ConvertFrom(context, culture, value);
         }

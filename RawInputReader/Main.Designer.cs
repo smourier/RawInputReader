@@ -36,11 +36,11 @@ namespace RawInputReader
             readInputsToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             exitToolStripMenuItem = new ToolStripMenuItem();
+            editToolStripMenuItem = new ToolStripMenuItem();
+            clearLogToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutRawInputReaderToolStripMenuItem = new ToolStripMenuItem();
             textBoxLog = new TextBox();
-            editToolStripMenuItem = new ToolStripMenuItem();
-            clearLogToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -81,6 +81,20 @@ namespace RawInputReader
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
+            // editToolStripMenuItem
+            // 
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { clearLogToolStripMenuItem });
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(39, 20);
+            editToolStripMenuItem.Text = "&Edit";
+            // 
+            // clearLogToolStripMenuItem
+            // 
+            clearLogToolStripMenuItem.Name = "clearLogToolStripMenuItem";
+            clearLogToolStripMenuItem.Size = new Size(180, 22);
+            clearLogToolStripMenuItem.Text = "&Clear Log";
+            clearLogToolStripMenuItem.Click += ClearLogToolStripMenuItem_Click;
+            // 
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutRawInputReaderToolStripMenuItem });
@@ -104,22 +118,9 @@ namespace RawInputReader
             textBoxLog.Multiline = true;
             textBoxLog.Name = "textBoxLog";
             textBoxLog.ReadOnly = true;
+            textBoxLog.ScrollBars = ScrollBars.Both;
             textBoxLog.Size = new Size(800, 426);
             textBoxLog.TabIndex = 1;
-            // 
-            // editToolStripMenuItem
-            // 
-            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { clearLogToolStripMenuItem });
-            editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(39, 20);
-            editToolStripMenuItem.Text = "&Edit";
-            // 
-            // clearLogToolStripMenuItem
-            // 
-            clearLogToolStripMenuItem.Name = "clearLogToolStripMenuItem";
-            clearLogToolStripMenuItem.Size = new Size(180, 22);
-            clearLogToolStripMenuItem.Text = "&Clear Log";
-            clearLogToolStripMenuItem.Click += ClearLogToolStripMenuItem_Click;
             // 
             // Main
             // 

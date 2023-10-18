@@ -1,11 +1,102 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace RawInputReader.Utilities
 {
     public static class Conversions
     {
+        public static string? ToHexaDump(string text, Encoding? encoding = null)
+        {
+            if (text == null)
+                return null;
+
+            encoding ??= Encoding.Unicode;
+            return ToHexaDump(encoding.GetBytes(text));
+        }
+
+        public static string ToHexaDump(this byte[] bytes) => ToHexaDump(bytes, null);
+        public static string ToHexaDump(this byte[] bytes, string? prefix)
+        {
+            ArgumentNullException.ThrowIfNull(bytes);
+            return ToHexaDump(bytes, 0, bytes.Length, prefix, true);
+        }
+
+        public static string ToHexaDump(this IntPtr ptr, int count) => ToHexaDump(ptr, 0, count, null, true);
+        public static string ToHexaDump(this IntPtr ptr, int offset, int count, string? prefix, bool addHeader)
+        {
+            ArgumentNullException.ThrowIfNull(ptr);
+            var bytes = new byte[count];
+            Marshal.Copy(ptr, bytes, offset, count);
+            return ToHexaDump(bytes, 0, count, prefix, addHeader);
+        }
+
+        public static string ToHexaDump(this byte[] bytes, int count) => ToHexaDump(bytes, 0, count, null, true);
+        public static string ToHexaDump(this byte[] bytes, int offset, int count) => ToHexaDump(bytes, offset, count, null, true);
+        public static string ToHexaDump(this byte[] bytes, int offset, int count, string? prefix, bool addHeader)
+        {
+            ArgumentNullException.ThrowIfNull(bytes);
+            if (offset < 0)
+            {
+                offset = 0;
+            }
+
+            if (count < 0)
+            {
+                count = bytes.Length;
+            }
+
+            if ((offset + count) > bytes.Length)
+            {
+                count = bytes.Length - offset;
+            }
+
+            var sb = new StringBuilder();
+            if (addHeader)
+            {
+                sb.Append(prefix);
+                //             0         1         2         3         4         5         6         7
+                //             01234567890123456789012345678901234567890123456789012345678901234567890123456789
+                sb.AppendLine("Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  0123456789ABCDEF");
+                sb.AppendLine("--------  -----------------------------------------------  ----------------");
+            }
+
+            for (int i = 0; i < count; i += 16)
+            {
+                sb.Append(prefix);
+                sb.AppendFormat(CultureInfo.InvariantCulture, "{0:X8}  ", i + offset);
+
+                int j;
+                for (j = 0; (j < 16) && ((i + j) < count); j++)
+                {
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{0:X2} ", bytes[i + j + offset]);
+                }
+
+                sb.Append(' ');
+                if (j < 16)
+                {
+                    sb.Append(new string(' ', 3 * (16 - j)));
+                }
+                for (j = 0; j < 16 && (i + j) < count; j++)
+                {
+                    var b = bytes[i + j + offset];
+                    if (b > 31 && b < 128)
+                    {
+                        sb.Append((char)b);
+                    }
+                    else
+                    {
+                        sb.Append('.');
+                    }
+                }
+
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
         public static string? Nullify(this string? text)
         {
             if (text == null)

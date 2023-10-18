@@ -7,10 +7,21 @@ using RawInputReader.Utilities;
 
 namespace RawInputReader
 {
+    // notes
+    // surface pen HID_USAGE_PAGE_DIGITIZER + HID_USAGE_DIGITIZER_PEN
+    // https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/supporting-usages-in-digitizer-report-descriptors#hid-descriptor-for-digitizers
+
     public partial class Main : Form
     {
         public Main()
         {
+            if (IntPtr.Size != 8)
+            {
+                this.ShowError("Only 64-bit mode is supported.");
+                Close();
+                return;
+            }
+
             InitializeComponent();
             Icon = Resources.RawInputReader_icon;
             textBoxLog.MaxLength = int.MaxValue;
@@ -77,14 +88,20 @@ namespace RawInputReader
                 str += " " + nameof(RIM_INPUTSINK);
             }
 
-            var header = GetHeader(m.LParam);
-            if (header != null)
+            var data = GetData(m.LParam);
+            if (data != null)
             {
-                str += " type:" + header.Value.dwType + " size:" + header.Value.dwSize;
-                var name = GetDeviceName(header.Value.hDevice);
+                str += " type:" + data.input.header.dwType + " size:" + data.input.header.dwSize;
+                var name = GetDeviceName(data.input.header.hDevice);
                 if (name != null)
                 {
                     str += " '" + name + "'";
+                }
+
+                if (data.hidData != null)
+                {
+                    str += "hid count:" + data.input.hid.dwCount + " hid size:" + data.input.hid.dwSizeHid;
+                    str += Environment.NewLine + data.hidData.ToHexaDump();
                 }
             }
 
@@ -158,6 +175,44 @@ namespace RawInputReader
             {
                 _ = GetRawInputData(handle, RID.RID_HEADER, ptr, ref size, sizef);
                 return Marshal.PtrToStructure<RAWINPUTHEADER>(ptr);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+
+        private sealed class RawInputData
+        {
+            public RAWINPUT input;
+            public byte[]? hidData;
+        }
+
+        private static RawInputData? GetData(IntPtr handle)
+        {
+            var size = 0;
+            var sizef = Marshal.SizeOf<RAWINPUTHEADER>();
+            _ = GetRawInputData(handle, RID.RID_INPUT, 0, ref size, sizef);
+            if (size == 0)
+                return null;
+
+            var ptr = Marshal.AllocHGlobal(size);
+            try
+            {
+                _ = GetRawInputData(handle, RID.RID_INPUT, ptr, ref size, sizef);
+                var data = new RawInputData
+                {
+                    input = Marshal.PtrToStructure<RAWINPUT>(ptr)
+                };
+
+                if (data.input.header.dwType == RIM.RIM_TYPEHID)
+                {
+                    var hidSize = data.input.hid.dwSizeHid * data.input.hid.dwCount;
+                    data.hidData = new byte[hidSize];
+                    var offset = Marshal.SizeOf<RAWINPUTHEADER>() + Marshal.SizeOf<RAWHID>();
+                    Marshal.Copy(ptr + offset, data.hidData, 0, hidSize);
+                }
+                return data;
             }
             finally
             {
@@ -296,6 +351,30 @@ namespace RawInputReader
             public ushort VKey;
             public uint Message;
             public uint ExtraInformation;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RAWHID // just the beginning
+        {
+            public int dwSizeHid;
+            public int dwCount;
+            // bRawData
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        private struct RAWINPUT
+        {
+            [FieldOffset(0)]
+            public RAWINPUTHEADER header;
+
+            [FieldOffset(24)] // 64-bit only
+            public RAWMOUSE mouse;
+
+            [FieldOffset(24)] // 64-bit only
+            public RAWKEYBOARD keyboard;
+
+            [FieldOffset(24)] // 64-bit only
+            public RAWHID hid;
         }
 
         [StructLayout(LayoutKind.Sequential)]
