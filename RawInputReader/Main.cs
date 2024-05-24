@@ -51,7 +51,7 @@ namespace RawInputReader
                 usUsage = dlg.Input.Usage
             };
 
-            if (!RegisterRawInputDevices(new[] { device }, 1, Marshal.SizeOf<RAWINPUTDEVICE>()))
+            if (!RegisterRawInputDevices([device], 1, Marshal.SizeOf<RAWINPUTDEVICE>()))
             {
                 this.ShowError(new Win32Exception(Marshal.GetLastWin32Error()).Message);
                 return;
@@ -162,7 +162,9 @@ namespace RawInputReader
             WinformsUtilities.ReplaceWindowText(handle, text + Environment.NewLine);
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
         private static RAWINPUTHEADER? GetHeader(IntPtr handle)
+#pragma warning restore IDE0051 // Remove unused private members
         {
             var size = 0;
             var sizef = Marshal.SizeOf<RAWINPUTHEADER>();
@@ -386,7 +388,7 @@ namespace RawInputReader
             public HID_USAGE_PAGE usUsagePage;
             public ushort usUsage;
 
-            public override string ToString() => $"Vendor 0x{dwVendorId.ToString("X8")} Product 0x{dwProductId.ToString("X8")} Page {usUsagePage} Usage 0x{usUsage.ToString("X4")}";
+            public override readonly string ToString() => $"Vendor 0x{dwVendorId:X8} Product 0x{dwProductId:X8} Page {usUsagePage} Usage 0x{usUsage:X4}";
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -399,7 +401,7 @@ namespace RawInputReader
             public int dwNumberOfIndicators;
             public int dwNumberOfKeysTotal;
 
-            public override string ToString() => $"Type 0x{dwType.ToString("X8")} Keys {dwNumberOfKeysTotal}";
+            public override readonly string ToString() => $"Type 0x{dwType:X8} Keys {dwNumberOfKeysTotal}";
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -410,7 +412,7 @@ namespace RawInputReader
             public int dwSampleRate;
             public bool fHasHorizontalWheel;
 
-            public override string ToString() => $"Id 0x{dwId.ToString("X8")} Buttons {dwNumberOfButtons} SampleRate {dwSampleRate}";
+            public override readonly string ToString() => $"Id 0x{dwId:X8} Buttons {dwNumberOfButtons} SampleRate {dwSampleRate}";
         }
 
         [StructLayout(LayoutKind.Explicit)]
@@ -431,7 +433,7 @@ namespace RawInputReader
             [FieldOffset(8)]
             public RID_DEVICE_INFO_HID hid;
 
-            public override string ToString()
+            public override readonly string ToString()
             {
                 var str = "Size " + cbSize + " ";
                 switch (dwType)

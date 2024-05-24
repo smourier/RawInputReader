@@ -101,8 +101,8 @@ namespace RawInputReader.Utilities
                             {
                                 if (item.DisplayNames == null)
                                 {
-                                    item.DisplayNames = new List<string>();
-                                    item.Values = new List<ulong>();
+                                    item.DisplayNames = [];
+                                    item.Values = [];
                                 }
                                 if (displayNames.TryGetValue(bitName, out dn))
                                 {

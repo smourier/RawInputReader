@@ -732,7 +732,7 @@ namespace RawInputReader.Utilities
             return false;
         }
 
-        private static readonly char[] _enumSeparators = new char[] { ',', ';', '+', '|', ' ' };
+        private static readonly char[] _enumSeparators = [',', ';', '+', '|', ' '];
 
         public static object ToEnum(string text, Type enumType) { TryParseEnum(enumType, text, out object value); return value; }
         public static bool TryParseEnum(Type type, object input, out object value)
